@@ -14,7 +14,7 @@ import {
   SEND_MAIL_REQUEST,
   SEND_MAIL_SUCCESS,
   SET_AUTH,
-} from "constants/actions/auth.const";
+} from "store/constants/auth.const";
 
 export const setAuth = (data) => ({
   type: SET_AUTH,

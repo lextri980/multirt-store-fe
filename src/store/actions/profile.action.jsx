@@ -14,7 +14,7 @@ import {
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
-} from "constants/actions/profile.const";
+} from "store/constants/profile.const";
 
 export const getProfileRequest = () => ({
   type: GET_PROFILE_REQUEST,

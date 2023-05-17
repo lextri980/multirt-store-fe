@@ -5,7 +5,7 @@ import {
   GET_USER_FAIL,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-} from "constants/actions/user.const";
+} from "store/constants/user.const";
 
 const initState = {
   users: [],

@@ -14,7 +14,7 @@ import {
   SEND_MAIL_REQUEST,
   SEND_MAIL_SUCCESS,
   SET_AUTH,
-} from "constants/actions/auth.const";
+} from "store/constants/auth.const";
 
 const initState = {
   user: null,

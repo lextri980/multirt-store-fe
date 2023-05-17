@@ -2,7 +2,7 @@ import axios from "axios";
 import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
 
 const apiAxios = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 20000,
 });
 
@@ -30,7 +30,7 @@ apiAxios.interceptors.response.use(
   (response) => {
     return response;
   },
-  function (error) {
+  (error) => {
     // const originalRequest = error.config;
     // This uses for refresh token
     // if (error.response.status === 403 && !originalRequest._retry) {

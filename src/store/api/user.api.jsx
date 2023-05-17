@@ -1,14 +1,13 @@
 import apiAxios from "config/axios";
-import { url } from "constants/service.const";
 
 export const getUserApi = async (query) =>
-  await apiAxios.get(`${url}/user/list/${query}`);
+  await apiAxios.get(`/user/list/${query}`);
 
 export const getDetailUserApi = async (userId) =>
-  await apiAxios.get(`${url}/user/detail/${userId}`);
+  await apiAxios.get(`/user/detail/${userId}`);
 
 export const updadateUserApi = async (userId, data) =>
-  await apiAxios.post(`${url}/user/update/${userId}`, data);
+  await apiAxios.post(`/user/update/${userId}`, data);
 
 export const deleteUserApi = async (userId) =>
-  await apiAxios.delete(`${url}/user/delete/${userId}`);
+  await apiAxios.delete(`/user/delete/${userId}`);

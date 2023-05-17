@@ -1,18 +1,16 @@
 import {
-  DELETE_AVATAR_FAIL,
-  UPDATE_AVATAR_FAIL,
-} from "constants/actions/profile.const";
-import {
-  GET_USER_REQUEST,
-  GET_USER_FAIL,
-  GET_USER_SUCCESS,
-  GET_DETAIL_USER_REQUEST,
-  GET_DETAIL_USER_SUCCESS,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_REQUEST,
+  DELETE_USER_FAIL,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
-} from "constants/actions/user.const";
+  GET_DETAIL_USER_REQUEST,
+  GET_DETAIL_USER_SUCCESS,
+  GET_USER_FAIL,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+} from "store/constants/user.const";
 
 export const getUserRequest = (param) => ({
   type: GET_USER_REQUEST,
@@ -55,7 +53,7 @@ export const updateUserSuccess = (data) => ({
 });
 
 export const updateUserFail = (error) => ({
-  type: UPDATE_AVATAR_FAIL,
+  type: UPDATE_USER_FAIL,
   payload: error,
 });
 
@@ -70,6 +68,6 @@ export const deleteUserSuccess = (data) => ({
 });
 
 export const deleteUserFail = (error) => ({
-  type: DELETE_AVATAR_FAIL,
+  type: DELETE_USER_FAIL,
   payload: error,
 });
