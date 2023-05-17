@@ -1,10 +1,10 @@
-import { all } from "redux-saga/effects";
-import { authSaga } from "./auth.saga";
-import { profileSaga } from "./profile.saga";
-import { userSaga } from "./user.saga";
+import { all, fork } from "redux-saga/effects";
+import { authWatcher } from "./auth.saga";
+import { profileWatcher } from "./profile.saga";
+import { userWatcher } from "./user.saga";
 
 function* rootSaga() {
-  yield all([...authSaga, ...profileSaga, ...userSaga]);
+  yield all([fork(authWatcher), fork(profileWatcher), fork(userWatcher)]);
 }
 
 export default rootSaga;

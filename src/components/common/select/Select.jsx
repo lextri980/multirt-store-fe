@@ -1,11 +1,18 @@
 import { Autocomplete, TextField } from "@mui/material";
+import PropTypes from "prop-types";
 import { SelectBoxContainer } from "./Select.style";
 
+Select.propTypes = {
+  options: PropTypes.array.isRequired,
+  label: PropTypes.string,
+  id: PropTypes.string,
+  multiple: PropTypes.bool,
+  clearable: PropTypes.bool,
+  defaultValue: PropTypes.object,
+  onChange: PropTypes.func,
+};
+
 function Select(props) {
-  //! Props type
-  //Require: options: {value, label}
-  //Option: defaultValue, onChange, multiple, label, clearable, id
-  //Func: onChange
   const { options, defaultValue, onChange, label, multiple, clearable, id } =
     props;
 

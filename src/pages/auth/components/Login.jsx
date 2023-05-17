@@ -3,14 +3,8 @@ import EmailIcon from "@mui/icons-material/EmailOutlined";
 import LockIcon from "@mui/icons-material/LockOutlined";
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import { Card, Checkbox, Row, Spacer, Text } from "@nextui-org/react";
-import Button from "components/common/button/Button";
-import ErrorMessage from "components/common/errorMessage/ErrorMessage";
-import Input from "components/common/input/Input";
-import Loading from "components/common/loading/Loading";
-import Modal from "components/common/modal/Modal";
-import AnimatedLayout from "components/layouts/animatedLayout/AnimatedLayout";
-import { CONFIRM_PW, FORMAT, PW_FORMAT, REQUIRED } from "constants/message";
-import { passwordRegex } from "constants/regex.const";
+import { Button, ErrorMessage, Input, Loading, Modal } from "components/common";
+import { AnimatedLayout } from "components/layouts";
 import { useQuery } from "hooks/useRoute";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -22,47 +16,24 @@ import {
   resetPasswordRequest,
   sendMailRequest,
 } from "store/actions/auth.action";
-import * as yup from "yup";
-import { AuthContainer } from "./Auth.style";
+import { AuthContainer } from "../Auth.style";
+import { loginSchema, resetPasswordSchema, sendMailSchema } from "../schema";
 
 function Login() {
-  //* Redux hooks
-  const dispatch = useDispatch();
+  //* Redux hooks --------------------------------------------------------------------------------------------
   const { loading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  //* Hooks
-  const getQuery = useQuery();
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  //* Declare global variables -------------------------------------------------------------------------------
+  //* Local state --------------------------------------------------------------------------------------------
+  const [typePw, setTypePw] = useState(false);
+  const [sendMailResetPasswordModal, setSendMailResetPasswordModal] =
+    useState(false);
+  const [resetPasswordModal, setResetPasswordModal] = useState(false);
+  const [typePw1, setTypePw1] = useState(false);
+  const [typePw2, setTypePw2] = useState(false);
 
-  useEffect(() => {
-    if (getQuery.userId && getQuery.token) {
-      setResetPasswordModal(true);
-    }
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //* Form handling
-  const loginSchema = yup.object().shape({
-    email: yup.string().required(`Email ${REQUIRED}`).email(`${FORMAT} email`),
-    password: yup.string().required(`Password ${REQUIRED}`),
-  });
-
-  const sendMailSchema = yup.object().shape({
-    email: yup.string().required(`Email ${REQUIRED}`).email(`${FORMAT} email`),
-  });
-
-  const resetPasswordSchema = yup.object().shape({
-    password: yup
-      .string()
-      .required(`Password ${REQUIRED}`)
-      .matches(passwordRegex, `${PW_FORMAT}`),
-    confirmPassword: yup
-      .string()
-      .required(`Confirm password ${REQUIRED}`)
-      .oneOf([yup.ref("password"), null], CONFIRM_PW),
-  });
-
+  //* Form and validate --------------------------------------------------------------------------------------
   const {
     register: regLogin,
     handleSubmit: handleSubmitLogin,
@@ -70,9 +41,7 @@ function Login() {
     trigger: triggerLogin,
     control: controlLogin,
     formState: { errors: loginError },
-  } = useForm({
-    resolver: yupResolver(loginSchema),
-  });
+  } = useForm({ resolver: yupResolver(loginSchema) });
 
   const {
     register: regSendMail,
@@ -80,9 +49,7 @@ function Login() {
     trigger: triggerSendMail,
     resetField: resetFieldSendMail,
     formState: { errors: sendMailError },
-  } = useForm({
-    resolver: yupResolver(sendMailSchema),
-  });
+  } = useForm({ resolver: yupResolver(sendMailSchema) });
 
   const {
     register: regResetPassword,
@@ -92,20 +59,25 @@ function Login() {
     formState: { errors: resetPasswordError },
   } = useForm({ resolver: yupResolver(resetPasswordSchema) });
 
-  //* Local state
-  const [typePw, setTypePw] = useState(false);
-  const [sendMailResetPasswordModal, setSendMailResetPasswordModal] =
-    useState(false);
-  const [resetPasswordModal, setResetPasswordModal] = useState(false);
-  const [typePw1, setTypePw1] = useState(false);
-  const [typePw2, setTypePw2] = useState(false);
+  //* Hooks --------------------------------------------------------------------------------------------------
+  const getQuery = useQuery();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  //@ (navigateRoute): Change route action
+  //* Effects ------------------------------------------------------------------------------------------------
+  useEffect(() => {
+    if (getQuery.userId && getQuery.token) {
+      setResetPasswordModal(true);
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //@ (navigateRoute): Change route action -------------------------------------------------------
   const navigateRoute = () => {
     navigate("/dashboard");
   };
 
-  //@ (handleClearform): click to clear form text
+  //@ (handleClearform): click to clear form text -------------------------------------------------------
   const handleClearform = () => {
     resetFieldLogin("email");
     resetFieldLogin("password");
@@ -114,7 +86,7 @@ function Login() {
     resetFieldResetPassword("confirmPassword");
   };
 
-  //@ (closeModal): close all modal
+  //@ (closeModal): close all modal -------------------------------------------------------
   const closeModal = () => {
     setSendMailResetPasswordModal(false);
     setResetPasswordModal(false);
@@ -128,17 +100,17 @@ function Login() {
     }
   };
 
-  //! async (onSubmitLogin): click to submit login form
+  //! async (onSubmitLogin): click to submit login form -------------------------------------------------------
   const onSubmitLogin = (form) => {
     dispatch(loginRequest(form, navigateRoute));
   };
 
-  //! async (onSubmitSendMailReset): click to submit send mail form
+  //! async (onSubmitSendMailReset): click to submit send mail form -------------------------------------------------------
   const onSubmitSendMailReset = (form) => {
     dispatch(sendMailRequest(form, closeModal));
   };
 
-  //! async (onSubmitSendMailReset): click to submit send mail form
+  //! async (onSubmitSendMailReset): click to submit send mail form -------------------------------------------------------
   const onSubmitResetPassword = (form) => {
     const formData = {
       password: form.password,
@@ -148,6 +120,8 @@ function Login() {
     dispatch(resetPasswordRequest(formData, closeModal));
   };
 
+  //! Condition rendering --------------------------------------------------------------------------------------------------
+  //!! Return section ------------------------------------------------------------------------------------------------------
   return (
     <AnimatedLayout>
       <AuthContainer>
@@ -174,7 +148,7 @@ function Login() {
                 placeholder="Password"
                 label={<LockIcon />}
                 value="password"
-                type={typePw}
+                isText={typePw}
                 password
                 onPassword={() => setTypePw(!typePw)}
                 register={regLogin}
@@ -295,7 +269,7 @@ function Login() {
               label={<LockResetOutlinedIcon />}
               value="confirmPassword"
               password
-              type={typePw2}
+              isText={typePw2}
               onPassword={() => setTypePw2(!typePw2)}
               register={regResetPassword}
               error={resetPasswordError.confirmPassword ? true : false}

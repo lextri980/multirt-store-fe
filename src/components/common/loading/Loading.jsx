@@ -1,10 +1,13 @@
 import Loadings from "@nextui-org/react/loading";
+import PropTypes from 'prop-types';
+
+Loading.propTypes = {
+  color: PropTypes.string,
+  size: PropTypes.string,
+  type: PropTypes.string,
+};
 
 function Loading(props) {
-  //! Props type
-  //Require:
-  //Option: color, size, type
-  //Func:
   const { color, size, type } = props;
 
   return (

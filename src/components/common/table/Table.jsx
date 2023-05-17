@@ -1,13 +1,19 @@
-import React from "react";
+import TableCustom from "@nextui-org/react/table";
+import PropTypes from "prop-types";
 import { TableContainer } from "./Table.style";
-import Table from "@nextui-org/react/table";
+
+Table.propTypes = {
+  column: PropTypes.array,
+  data: PropTypes.array,
+  renderCell: PropTypes.func,
+};
 
 function Table(props) {
   const { columns, data, renderCell } = props;
 
   return (
     <TableContainer>
-      <Table
+      <TableCustom
         aria-label="Table render"
         css={{
           height: "auto",
@@ -19,9 +25,9 @@ function Table(props) {
         hoverable
         sticked
       >
-        <Table.Header columns={columns}>
+        <TableCustom.Header columns={columns}>
           {(column) => (
-            <Table.Column
+            <TableCustom.Column
               key={column.key}
               align={column.key === "action" ? "center" : "start"}
               css={{
@@ -31,19 +37,21 @@ function Table(props) {
               }}
             >
               {column.label}
-            </Table.Column>
+            </TableCustom.Column>
           )}
-        </Table.Header>
-        <Table.Body items={data}>
+        </TableCustom.Header>
+        <TableCustom.Body items={data}>
           {(item) => (
-            <Table.Row key={item._id}>
+            <TableCustom.Row key={item._id}>
               {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                <TableCustom.Cell>
+                  {renderCell(item, columnKey)}
+                </TableCustom.Cell>
               )}
-            </Table.Row>
+            </TableCustom.Row>
           )}
-        </Table.Body>
-      </Table>
+        </TableCustom.Body>
+      </TableCustom>
     </TableContainer>
   );
 }

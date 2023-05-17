@@ -1,10 +1,13 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import errorImg from "assets/img/error404.gif";
-import Button from "components/common/button/Button";
+import { Button } from "components/common";
 import { useNavigate } from "react-router";
+import { titlePage } from "utils/titlePage.util";
 import { NotFoundContainer } from "./NotFound.style";
 
 function NotFound() {
+  titlePage("Multirt | Not found");
+
   const navigate = useNavigate();
 
   return (

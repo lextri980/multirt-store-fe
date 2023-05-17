@@ -5,21 +5,15 @@ import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import UsernameIcon from "@mui/icons-material/PeopleAltOutlined";
 import { Avatar, Card, Spacer } from "@nextui-org/react";
 import clsx from "clsx";
-import Button from "components/common/button/Button";
-import ErrorMessage from "components/common/errorMessage/ErrorMessage";
-import File from "components/common/file/File";
-import Input from "components/common/input/Input";
-import Loading from "components/common/loading/Loading";
-import Modal from "components/common/modal/Modal";
-import AnimatedLayout from "components/layouts/animatedLayout/AnimatedLayout";
-import { FILE_SIZE_MAX } from "constants/common";
 import {
-  CONFIRM_PW,
-  FILE_SIZE,
-  FILE_TYPE,
-  FORMAT,
-  REQUIRED,
-} from "constants/message";
+  Button,
+  ErrorMessage,
+  File,
+  Input,
+  Loading,
+  Modal,
+} from "components/common";
+import { AnimatedLayout } from "components/layouts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,17 +26,18 @@ import {
 } from "store/actions/profile.action";
 import { formatDate } from "utils/function.util";
 import { titlePage } from "utils/titlePage.util";
-import * as yup from "yup";
 import { ProfileContainer } from "./Profile.style";
+import { avatarSchema, passwordSchema, profileSchema } from "./schema";
 
 function Profile() {
   titlePage("Multirt | Profile");
 
-  //* Redux hooks ------------------------------------------------------------------------------------------
+  //* Redux hooks --------------------------------------------------------------------------------------------
   const { profile, loading } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  //* Local state ------------------------------------------------------------------------------------------
+  //* Declare global variables -------------------------------------------------------------------------------
+  //* Local state --------------------------------------------------------------------------------------------
   const [openUpdateProfileModal, setOpenUpdateProfileModal] = useState(false);
   const [openUpdateAvatarModal, setOpenUpdateAvatarModal] = useState(false);
   const [openUpdatePasswordModal, setOpenUpdatePasswordModal] = useState(false);
@@ -54,40 +49,6 @@ function Profile() {
   const [previewFile, setPreviewFile] = useState("");
 
   //* Form and validate --------------------------------------------------------------------------------------
-  const profileSchema = yup.object().shape({
-    name: yup.string().required(`Name ${REQUIRED}`),
-    email: yup.string().required(`Email ${REQUIRED}`).email(`${FORMAT} email`),
-  });
-
-  const avatarSchema = yup.object().shape({
-    avatar: yup
-      .mixed()
-      .required(`Avatar ${REQUIRED}`)
-      .test("hasFile", `Avatar ${REQUIRED}`, (value) => value && value[0])
-      .test("fileType", FILE_TYPE, (value) => {
-        if (!value || !value[0]) return true;
-        return (
-          value[0].type === "image/jpeg" ||
-          value[0].type === "image/png" ||
-          value[0].type === "image/jpg" ||
-          value[0].type === "image/gif"
-        );
-      })
-      .test("fileSize", FILE_SIZE, (value) => {
-        if (!value || !value[0]) return true;
-        return value[0].size < FILE_SIZE_MAX;
-      }),
-  });
-
-  const passwordSchema = yup.object().shape({
-    oldPassword: yup.string().required(`Old password ${REQUIRED}`),
-    password: yup.string().required(`New password ${REQUIRED}`),
-    confirmPassword: yup
-      .string()
-      .required(`Confirm password ${REQUIRED}`)
-      .oneOf([yup.ref("password"), null], CONFIRM_PW),
-  });
-
   const {
     register: regProfile,
     handleSubmit: handleSubmitProfile,
@@ -119,7 +80,8 @@ function Profile() {
     resolver: yupResolver(passwordSchema),
   });
 
-  //* Hooks -------------------------------------------------------------------------------
+  //* Hooks --------------------------------------------------------------------------------------------------
+  //* Effects ------------------------------------------------------------------------------------------------
   useEffect(() => {
     dispatch(getProfileRequest());
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +96,7 @@ function Profile() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
 
-  //@ (handleClearForm): clear form
+  //@ (handleClearForm): clear form -------------------------------------------------------
   const handleClearForm = () => {
     resetFieldProfile("name");
     resetFieldProfile("email");
@@ -146,7 +108,7 @@ function Profile() {
     setPreviewFile(null);
   };
 
-  //@ (handleChangeFile): handle choose a file
+  //@ (handleChangeFile): handle choose a file -------------------------------------------------------
   const handleChangeFile = (e) => {
     setFileName(e.target.value);
     const imagePreview = URL.createObjectURL(e.target.files[0]);
@@ -158,13 +120,13 @@ function Profile() {
     setAvatarAction(action);
   }
 
-  //! async (onSubmitProfile): Submit profile
+  //! async (onSubmitProfile): Submit profile -------------------------------------------------------
   const onSubmitProfile = (form) => {
     dispatch(updateProfileRequest(form));
     setOpenUpdateProfileModal(false);
   };
 
-  //! async (onSubmitAvatar): Submit avatar
+  //! async (onSubmitAvatar): Submit avatar -------------------------------------------------------
   const onSubmitAvatar = (form) => {
     if (avatarAction === "update") {
       const formData = new FormData();
@@ -178,13 +140,14 @@ function Profile() {
     setAvatarAction("");
   };
 
-  //! async (onSubmitPassword): Submit password
+  //! async (onSubmitPassword): Submit password -------------------------------------------------------
   const onSubmitPassword = (form) => {
     dispatch(updatePasswordRequest(form));
     setOpenUpdatePasswordModal(false);
   };
 
-  //!! Return section --------------------------------------------------------------------------------------------------------"
+  //! Condition rendering --------------------------------------------------------------------------------------------------
+  //!! Return section ------------------------------------------------------------------------------------------------------
   return (
     <AnimatedLayout>
       <ProfileContainer>

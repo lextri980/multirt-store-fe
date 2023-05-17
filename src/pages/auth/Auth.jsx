@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { titlePage } from "utils/titlePage.util";
-import Login from "./Login";
-import Register from "./Register";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function Auth() {
   titlePage("Multirt | Authentication");

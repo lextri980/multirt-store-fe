@@ -4,10 +4,8 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DetailIcon from "@mui/icons-material/DocumentScannerOutlined";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { Avatar, Badge, Spacer, Switch, Table } from "@nextui-org/react";
-import Button from "components/common/button/Button";
-import Loading from "components/common/loading/Loading";
-import Modal from "components/common/modal/Modal";
-import AnimatedLayout from "components/layouts/animatedLayout/AnimatedLayout";
+import { Button, Loading, Modal } from "components/common";
+import { AnimatedLayout } from "components/layouts";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetailUserRequest } from "store/actions/user.action";
@@ -59,7 +57,6 @@ function TableType() {
   const [userDetailModal, setUserDetailModal] = useState(false);
   const [userUpdatelModal, setUserUpdatelModal] = useState(false);
   const [userDeleteModal, setUserDeleteModal] = useState(false);
-  const [userChosen, setUserChosen] = useState({});
   const [switchLayout, setSwitchLayout] = useState(false);
 
   //* Form and validate --------------------------------------------------------------------------------------
@@ -69,11 +66,9 @@ function TableType() {
     setSwitchLayout(user?.isAdmin);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.isAdmin]);
-  //* Other --------------------------------------------------------------------------------------------------
 
   //@ (openUserModal): Open detail, update & delete user modal -------------------------------------------------------
   const openUserModal = (type, data) => {
-    setUserChosen(data);
     dispatch(getDetailUserRequest(data._id));
     if (type === "detail") {
       setUserDetailModal(true);
@@ -87,7 +82,6 @@ function TableType() {
   //@ (onUpdateUser): Dispatch update user -------------------------------------------------------
   const onUpdateUser = () => {
     userForm.isAdmin = switchLayout;
-    console.log(user._id)
   };
 
   //! Condition rendering --------------------------------------------------------------------------------------------------

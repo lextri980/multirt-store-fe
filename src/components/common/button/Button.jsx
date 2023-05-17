@@ -1,17 +1,25 @@
-import Buttonx from "@nextui-org/react/button";
+import ButtonCustom from "@nextui-org/react/button";
+import PropTypes from "prop-types";
 import { ButtonContainer } from "./Button.style";
 
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+  color: PropTypes.string,
+  border: PropTypes.bool,
+  type: PropTypes.oneOf(["submit", "button"]),
+  width: PropTypes.string,
+  textColor: PropTypes.string,
+  disabled: PropTypes.bool,
+};
+
 function Button(props) {
-  //! Props type
-  //Require: children, onClick
-  //Option: color, border, type, width, text, disabled
-  //Func: onClick
-  const { color, border, type, width, text, disabled, children, onClick } =
+  const { color, border, type, width, textColor, disabled, children, onClick } =
     props;
 
   return (
     <ButtonContainer>
-      <Buttonx
+      <ButtonCustom
         className={color || "primary"}
         onClick={onClick}
         aria-label="Common-btn"
@@ -19,13 +27,13 @@ function Button(props) {
         type={type || "button"}
         style={{
           width: width || "170px",
-          color: text,
+          color: textColor,
           minWidth: "50px",
         }}
         disabled={disabled || false}
       >
         {children}
-      </Buttonx>
+      </ButtonCustom>
     </ButtonContainer>
   );
 }

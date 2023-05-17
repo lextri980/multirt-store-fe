@@ -12,3 +12,13 @@ export const ROLE = [
   { value: "admin", label: "Admin" },
   { value: "user", label: "User" },
 ];
+
+export const THEME_COLOR = [
+  "primary",
+  "success",
+  "error",
+  "warning",
+  "secondary",
+  "light",
+  "dark",
+];

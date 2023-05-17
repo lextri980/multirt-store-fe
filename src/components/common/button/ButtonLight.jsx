@@ -1,10 +1,12 @@
+import PropTypes from "prop-types";
 import { ButtonLightContainer } from "./Button.style";
 
+ButtonLight.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+};
+
 function ButtonLight(props) {
-  //! Props type
-  //Require: onClick, children
-  //Option: 
-  //Func: onClick
   const { onClick, children } = props;
 
   return (

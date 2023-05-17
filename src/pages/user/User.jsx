@@ -1,10 +1,9 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Card, Input, Pagination, Spacer } from "@nextui-org/react";
-import Button from "components/common/button/Button";
+import { Button, Modal, Select } from "components/common";
 import { SearchSendingIcon } from "components/common/icon/Icon";
-import Modal from "components/common/modal/Modal";
-import Select from "components/common/select/Select";
-import AnimatedLayout from "components/layouts/animatedLayout/AnimatedLayout";
+import { AnimatedLayout } from "components/layouts";
+import { RECORD_SIZE } from "constants/common";
 import { useCreateQuery, useRoute } from "hooks/useRoute";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,19 +11,18 @@ import { useNavigate } from "react-router";
 import { getUserRequest } from "store/actions/user.action";
 import { color } from "themes/colors";
 import { titlePage } from "utils/titlePage.util";
-import TableType from "./component/TableType";
 import {
   AdvancedSearchModalStyle,
   UserManagementContainer,
 } from "./User.style";
-import { RECORD_SIZE } from "constants/common";
+import TableType from "./components/TableType";
 
 function User() {
   titlePage("Multirt | Manage user");
 
   //* Redux hooks --------------------------------------------------------------------------------------------
-  const dispatch = useDispatch();
   const { pageInfo, users } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   //* Declare global variables -------------------------------------------------------------------------------
 
@@ -36,28 +34,24 @@ function User() {
   });
   const [commonSearch, setCommonSearch] = useState("");
   const [advancedSearch, setAdvancedSearch] = useState({
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     isAdmin: false,
-  })
+  });
   const [advancedSearchModal, setAdvancedSearchModal] = useState(false);
 
+  //* Form and validate --------------------------------------------------------------------------------------
   //* Hooks --------------------------------------------------------------------------------------------------
   const navigate = useNavigate();
   const searchQueryUrl = useCreateQuery(searchQuery);
   const { pathname, query } = useRoute();
 
-  //* Effects --------------------------------------------------------------------------------------------------
+  //* Effects ------------------------------------------------------------------------------------------------
   //? Effect to get user list
   useEffect(() => {
     dispatch(getUserRequest(query));
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
-
-  //@ (navigateQuery): Change query -----------------------------------
-  const navigateQuery = () => {
-    navigate(`${pathname}${searchQueryUrl}`);
-  };
 
   //? Effect to navigate query when change pagination
   useEffect(() => {
@@ -65,6 +59,12 @@ function User() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
+  //@ (navigateQuery): Change query -----------------------------------
+  const navigateQuery = () => {
+    navigate(`${pathname}${searchQueryUrl}`);
+  };
+
+  //! Condition rendering --------------------------------------------------------------------------------------------------
   //!! Return section ------------------------------------------------------------------------------------------------------
   return (
     <AnimatedLayout>

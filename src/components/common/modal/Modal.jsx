@@ -1,12 +1,17 @@
 import { Text } from "@nextui-org/react";
 import ModalCustom from "@nextui-org/react/modal";
+import PropTypes from "prop-types";
 import { ModalContainer } from "./Modal.style";
 
+Modal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  header: PropTypes.string,
+  width: PropTypes.string,
+};
+
 function Modal(props) {
-  //! Props type
-  //Require: open, close, children
-  //Option: header, width
-  //Func: close
   const { open, close, header, width, children } = props;
 
   return (

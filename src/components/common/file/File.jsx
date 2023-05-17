@@ -1,13 +1,19 @@
 import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import PropTypes from "prop-types";
 import { color } from "themes/colors";
 import { FileContainer } from "./File.style";
 
+File.propTypes = {
+  value: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  register: PropTypes.any.isRequired,
+  onClear: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  fileTitle: PropTypes.string,
+};
+
 function File(props) {
-  //! Props type
-  //Require: value, clear, name, onClear, register, onChange
-  //Option: fileTitle
-  //Func: onClear, onChange
   const { value, fileTitle, onClear, name, register, onChange } = props;
 
   return (

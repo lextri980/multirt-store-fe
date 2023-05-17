@@ -1,18 +1,17 @@
-import { getDetailUserApi, getUserApi } from "api/user.api";
-import {
-  GET_DETAIL_USER_REQUEST,
-  GET_USER_REQUEST,
-} from "constants/actions/user.const";
 import { toast } from "react-toastify";
-import { call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   getDetailUserFail,
+  getDetailUserRequest,
   getDetailUserSuccess,
   getUserFail,
+  getUserRequest,
   getUserSuccess,
 } from "store/actions/user.action";
+import { getDetailUserApi, getUserApi } from "store/api/user.api";
 
-function* workerGetUserSaga({ payload }) {
+function* getUserWorker(action) {
+  const { payload } = action;
   try {
     const response = yield call(getUserApi, payload);
     yield put(getUserSuccess(response.data));
@@ -22,7 +21,8 @@ function* workerGetUserSaga({ payload }) {
   }
 }
 
-function* workerGetDetailUserSaga({ payload }) {
+function* getDetailUserWorker(action) {
+  const { payload } = action;
   try {
     const response = yield call(getDetailUserApi, payload);
     yield put(getDetailUserSuccess(response.data));
@@ -32,15 +32,9 @@ function* workerGetDetailUserSaga({ payload }) {
   }
 }
 
-function* watcherGetUserSaga() {
-  yield takeEvery(GET_USER_REQUEST, workerGetUserSaga);
+export function* userWatcher() {
+  yield all([
+    yield takeEvery(getUserRequest().type, getUserWorker),
+    yield takeEvery(getDetailUserRequest().type, getDetailUserWorker),
+  ]);
 }
-
-function* watcherGetDetailUserSaga() {
-  yield takeEvery(GET_DETAIL_USER_REQUEST, workerGetDetailUserSaga);
-}
-
-export const userSaga = [
-  fork(watcherGetUserSaga),
-  fork(watcherGetDetailUserSaga),
-];

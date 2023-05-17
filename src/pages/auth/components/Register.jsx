@@ -4,39 +4,26 @@ import LockIcon from "@mui/icons-material/LockOutlined";
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import UsernameIcon from "@mui/icons-material/PeopleAltOutlined";
 import { Card, Row, Spacer } from "@nextui-org/react";
-import Button from "components/common/button/Button";
-import ErrorMessage from "components/common/errorMessage/ErrorMessage";
-import Input from "components/common/input/Input";
-import Loading from "components/common/loading/Loading";
-import AnimatedLayout from "components/layouts/animatedLayout/AnimatedLayout";
-import { CONFIRM_PW, FORMAT, PW_FORMAT, REQUIRED } from "constants/message";
-import { passwordRegex } from "constants/regex.const";
+import { Button, ErrorMessage, Input, Loading } from "components/common";
+import { AnimatedLayout } from "components/layouts";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { registerRequest } from "store/actions/auth.action";
-import * as yup from "yup";
-import { AuthContainer } from "./Auth.style";
+import { AuthContainer } from "../Auth.style";
+import { registerSchema } from "../schema";
 
 function Register() {
-  //* Redux hooks
-  const dispatch = useDispatch();
+  //* Redux hooks --------------------------------------------------------------------------------------------
   const { loading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  //* Hooks
-  const schema = yup.object().shape({
-    email: yup.string().required(`Email ${REQUIRED}`).email(`${FORMAT} email`),
-    name: yup.string().required(`Name ${REQUIRED}`),
-    password: yup
-      .string()
-      .required(`Password ${REQUIRED}`)
-      .matches(passwordRegex, `${PW_FORMAT}`),
-    confirmPassword: yup
-      .string()
-      .required(`Confirm password ${REQUIRED}`)
-      .oneOf([yup.ref("password"), null], CONFIRM_PW),
-  });
+  //* Declare global variables -------------------------------------------------------------------------------
+  //* Local state --------------------------------------------------------------------------------------------
+  const [typePw1, setTypePw1] = useState(false);
+  const [typePw2, setTypePw2] = useState(false);
 
+  //* Form and validate --------------------------------------------------------------------------------------
   const {
     register,
     handleSubmit,
@@ -44,14 +31,13 @@ function Register() {
     trigger,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
   });
 
-  //* Local state
-  const [typePw1, setTypePw1] = useState(false);
-  const [typePw2, setTypePw2] = useState(false);
+  //* Hooks --------------------------------------------------------------------------------------------------
+  //* Effects ------------------------------------------------------------------------------------------------
 
-  //@ (handleClearform): click to clear form text
+  //@ (handleClearform): click to clear form text -------------------------------------------------------
   const handleClearform = () => {
     resetField("email");
     resetField("name");
@@ -59,12 +45,14 @@ function Register() {
     resetField("confirmPassword");
   };
 
-  //! async (onSubmitLogin): click to submit login form
+  //! async (onSubmitLogin): click to submit login form -------------------------------------------------------
   const onSubmitRegister = (form) => {
     dispatch(registerRequest(form));
     handleClearform();
   };
 
+  //! Condition rendering --------------------------------------------------------------------------------------------------
+  //!! Return section ------------------------------------------------------------------------------------------------------
   return (
     <AnimatedLayout>
       <AuthContainer>
@@ -107,7 +95,7 @@ function Register() {
                 label={<LockIcon />}
                 value="password"
                 register={register}
-                type={typePw1}
+                isText={typePw1}
                 password
                 onPassword={() => setTypePw1(!typePw1)}
                 error={errors.password ? true : false}
@@ -123,7 +111,7 @@ function Register() {
                 label={<LockResetOutlinedIcon />}
                 value="confirmPassword"
                 register={register}
-                type={typePw2}
+                isText={typePw2}
                 password
                 onPassword={() => setTypePw2(!typePw2)}
                 error={errors.confirmPassword ? true : false}

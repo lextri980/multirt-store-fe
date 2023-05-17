@@ -1,33 +1,32 @@
+import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
+import { toast } from "react-toastify";
+import { push } from "redux-first-history";
+import { all, call, delay, put, takeLatest } from "redux-saga/effects";
+import {
+  loginFail,
+  loginRequest,
+  loginSuccess,
+  logoutRequest,
+  logoutSuccess,
+  registerFail,
+  registerRequest,
+  registerSuccess,
+  resetPasswordFail,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  sendMailFail,
+  sendMailRequest,
+  sendMailSuccess,
+} from "store/actions/auth.action";
 import {
   loginApi,
   registerApi,
   resetPasswordApi,
   sendMailApi,
-} from "api/auth.api";
-import {
-  LOGIN_REQUEST,
-  LOGOUT_REQUEST,
-  REGISTER_REQUEST,
-  RESET_PASSWORD_REQUEST,
-  SEND_MAIL_REQUEST,
-} from "constants/actions/auth.const";
-import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
-import { toast } from "react-toastify";
-import { push } from "redux-first-history";
-import { call, delay, fork, put, takeLatest } from "redux-saga/effects";
-import {
-  loginFail,
-  loginSuccess,
-  logoutSuccess,
-  registerFail,
-  registerSuccess,
-  resetPasswordFail,
-  resetPasswordSuccess,
-  sendMailFail,
-  sendMailSuccess,
-} from "store/actions/auth.action";
+} from "store/api/auth.api";
 
-function* workerLoginSaga({ payload, callback }) {
+function* loginWorker(action) {
+  const { payload, callback } = action;
   try {
     const response = yield call(loginApi, payload);
     if (response.status === 200) {
@@ -44,7 +43,8 @@ function* workerLoginSaga({ payload, callback }) {
   }
 }
 
-function* workerRegisterSaga({ payload }) {
+function* registerWorker(action) {
+  const { payload } = action;
   try {
     const response = yield call(registerApi, payload);
     if (response.status === 200) {
@@ -58,7 +58,8 @@ function* workerRegisterSaga({ payload }) {
   }
 }
 
-function* workerSendMailSaga({ payload, callback }) {
+function* sendMailWorker(action) {
+  const { payload, callback } = action;
   try {
     const response = yield call(sendMailApi, payload);
     if (response.status === 200) {
@@ -73,7 +74,8 @@ function* workerSendMailSaga({ payload, callback }) {
   }
 }
 
-function* workerResetPasswordSaga({ payload, callback }) {
+function* resetPasswordWorker(action) {
+  const { payload, callback } = action;
   try {
     const response = yield call(resetPasswordApi, payload);
     if (response.status === 200) {
@@ -88,7 +90,8 @@ function* workerResetPasswordSaga({ payload, callback }) {
   }
 }
 
-function* workerLogoutSaga({ callback }) {
+function* logoutWorker(action) {
+  const { callback } = action;
   localStorage.removeItem(LOCALSTORAGE_TOKEN_NAME);
   localStorage.removeItem("user");
   yield delay(500);
@@ -98,30 +101,12 @@ function* workerLogoutSaga({ callback }) {
   callback();
 }
 
-function* watcherLoginSaga() {
-  yield takeLatest(LOGIN_REQUEST, workerLoginSaga);
+export function* authWatcher() {
+  yield all([
+    yield takeLatest(loginRequest().type, loginWorker),
+    yield takeLatest(registerRequest().type, registerWorker),
+    yield takeLatest(sendMailRequest().type, sendMailWorker),
+    yield takeLatest(resetPasswordRequest().type, resetPasswordWorker),
+    yield takeLatest(logoutRequest().type, logoutWorker),
+  ]);
 }
-
-function* watcherRegisterSaga() {
-  yield takeLatest(REGISTER_REQUEST, workerRegisterSaga);
-}
-
-function* watcherSendMailSaga() {
-  yield takeLatest(SEND_MAIL_REQUEST, workerSendMailSaga);
-}
-
-function* watcherResetMailSaga() {
-  yield takeLatest(RESET_PASSWORD_REQUEST, workerResetPasswordSaga);
-}
-
-function* watcherLogoutSaga() {
-  yield takeLatest(LOGOUT_REQUEST, workerLogoutSaga);
-}
-
-export const authSaga = [
-  fork(watcherLoginSaga),
-  fork(watcherRegisterSaga),
-  fork(watcherSendMailSaga),
-  fork(watcherResetMailSaga),
-  fork(watcherLogoutSaga),
-];

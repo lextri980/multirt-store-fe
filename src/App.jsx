@@ -11,6 +11,7 @@ import "./themes/scss/App.scss";
 
 function App() {
   const route = useRoutes(routes());
+
   return (
     <ErrorBoundary>
       <SetAuthContextProvider>

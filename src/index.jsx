@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         <Router history={history}>
           <App />
         </Router>
