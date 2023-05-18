@@ -1,7 +1,7 @@
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import UpdateIcon from "@mui/icons-material/BorderColorOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import DetailIcon from "@mui/icons-material/DocumentScannerOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import DocumentScannerOutlinedIcon from "@mui/icons-material/DocumentScannerOutlined";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { Avatar, Badge, Spacer, Switch, Table } from "@nextui-org/react";
 import { Button, Loading, Modal } from "components/common";
@@ -136,22 +136,22 @@ function TableType() {
         } else {
           return (
             <div className="horizontal-center">
-              <DetailIcon
+              <DocumentScannerOutlinedIcon
                 className="pointer"
                 style={{ color: color.blue }}
                 onClick={() => openUserModal("detail", data)}
               />
               <Spacer x={0.8} />
-              <UpdateIcon
+              <BorderColorOutlinedIcon
                 className="pointer"
                 style={{ color: color.orangeP }}
                 onClick={() => openUserModal("update", data)}
               />
               <Spacer x={0.8} />
-              <DeleteIcon
+              <DeleteOutlineOutlinedIcon
                 className="pointer"
-                style={{ color: color.redP }}
-                onClick={() => openUserModal("delete", data)}
+                style={{ color: color.orangeP }}
+                onClick={() => openUserModal("update", data)}
               />
             </div>
           );

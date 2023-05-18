@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/Search";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { Card, Input, Pagination, Spacer } from "@nextui-org/react";
 import { Button, Modal, Select } from "components/common";
-import { SearchSendingIcon } from "components/common/icon/Icon";
 import { AnimatedLayout } from "components/layouts";
 import { RECORD_SIZE } from "constants/common";
 import { useCreateQuery, useRoute } from "hooks/useRoute";
@@ -93,7 +93,7 @@ function User() {
                   })
                 }
               >
-                <SearchSendingIcon size="20" color={color.blue} />
+                <SendRoundedIcon style={{ fontSize: 20, color: color.blue }} />
               </div>
             }
           />
