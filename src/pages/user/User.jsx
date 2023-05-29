@@ -84,7 +84,7 @@ function User() {
             contentLeft={<SearchIcon className="search-icon" />}
             contentRight={
               <div
-                style={{ padding: "0 5px" }}
+                style={{ padding: "0 5px", display: 'flex' }}
                 onClick={() =>
                   setSearchQuery({
                     ...searchQuery,
@@ -104,6 +104,7 @@ function User() {
             onChange={(_, selected) => {
               setSearchQuery({
                 ...searchQuery,
+                page: 1,
                 size: selected.value ? selected.value : 10,
               });
             }}
@@ -118,11 +119,13 @@ function User() {
               className="mb-20"
               color="primary"
               size="sm"
+              shadow
+              page={searchQuery.page}
               total={pageInfo?.totalPage}
               onChange={(e) => {
                 setSearchQuery({
                   ...searchQuery,
-                  page: e,
+                  page: Number(e),
                 });
               }}
             />

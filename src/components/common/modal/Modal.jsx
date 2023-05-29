@@ -6,7 +6,7 @@ import { ModalContainer } from "./Modal.style";
 Modal.propTypes = {
   open: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   header: PropTypes.string,
   width: PropTypes.string,
 };

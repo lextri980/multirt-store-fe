@@ -150,7 +150,7 @@ function TableType() {
               <Spacer x={0.8} />
               <DeleteOutlineOutlinedIcon
                 className="pointer"
-                style={{ color: color.orangeP }}
+                style={{ color: color.redP }}
                 onClick={() => openUserModal("update", data)}
               />
             </div>
