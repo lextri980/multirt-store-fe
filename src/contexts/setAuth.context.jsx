@@ -9,10 +9,10 @@ export const SetAuthContext = createContext();
 function SetAuthContextProvider({ children }) {
   //* Declare global variables
   const isAuth = localStorage.getItem(LOCALSTORAGE_TOKEN_NAME);
-  
+
   //* Redux hooks
   const dispatch = useDispatch();
-  
+
   //* Hooks
   const location = useLocation();
 
@@ -20,7 +20,7 @@ function SetAuthContextProvider({ children }) {
     setAuthLogin();
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   //! async (setAuthLogin): Check authentication
   const setAuthLogin = () => {
     if (localStorage[LOCALSTORAGE_TOKEN_NAME]) {

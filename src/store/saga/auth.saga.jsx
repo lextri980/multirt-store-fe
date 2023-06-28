@@ -1,6 +1,5 @@
 import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
 import { toast } from "react-toastify";
-import { push } from "redux-first-history";
 import { all, call, delay, put, takeLatest } from "redux-saga/effects";
 import {
   loginFail,
@@ -96,17 +95,19 @@ function* logoutWorker(action) {
   localStorage.removeItem("user");
   yield delay(500);
   yield put(logoutSuccess());
-  yield put(push("/dashboard"));
-  yield toast.success("Logout successfully");
-  callback();
+  if (callback) {
+    callback();
+  } else {
+    yield toast.success("Logout successfully");
+  }
 }
 
 export function* authWatcher() {
   yield all([
-    yield takeLatest(loginRequest().type, loginWorker),
-    yield takeLatest(registerRequest().type, registerWorker),
-    yield takeLatest(sendMailRequest().type, sendMailWorker),
-    yield takeLatest(resetPasswordRequest().type, resetPasswordWorker),
-    yield takeLatest(logoutRequest().type, logoutWorker),
+    takeLatest(loginRequest().type, loginWorker),
+    takeLatest(registerRequest().type, registerWorker),
+    takeLatest(sendMailRequest().type, sendMailWorker),
+    takeLatest(resetPasswordRequest().type, resetPasswordWorker),
+    takeLatest(logoutRequest().type, logoutWorker),
   ]);
 }

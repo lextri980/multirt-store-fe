@@ -192,37 +192,17 @@ function Profile() {
                     {profile?.isAdmin === true ? "Admin" : "User"}
                   </span>
                 </p>
-                <p
-                  className={clsx({
-                    "mb-10": profile?.createdAt !== profile?.updatedAt,
-                  })}
-                >
-                  <span className="title">Created</span>
-                  <span className="content">
-                    {formatDate(profile?.createdAt, "DD/MM/YYYY")}
-                  </span>
-                </p>
-                {profile?.createdAt === profile?.updatedAt ? (
-                  ""
-                ) : (
-                  <p>
-                    <span className="title">Updated</span>
-                    <span className="content">
-                      {formatDate(profile?.updatedAt, "DD/MM/YYYY")}
-                    </span>
-                  </p>
-                )}
               </>
             )}
           </Card.Body>
-          <Card.Footer className="center">
+          <Card.Footer className="center full-width">
             <Button
               color="warning"
-              width="320px"
+              width="100%"
               onClick={() => {
                 setOpenUpdateProfileModal(true);
                 handleClearForm();
-              }}
+              }}  
             >
               Update profile
             </Button>
@@ -238,7 +218,6 @@ function Profile() {
               >
                 Change avatar
               </Button>
-              <Spacer x={1} />
               <Button
                 color="danger"
                 width="150px"

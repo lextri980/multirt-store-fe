@@ -1,16 +1,11 @@
-import { createBrowserHistory } from "history";
 import { combineReducers } from "redux";
-import { createReduxHistoryContext } from "redux-first-history";
 import authReducer from "./auth.reducer";
 import profileReducer from "./profile.reducer";
 import userReducer from "./user.reducer";
-
-const { routerReducer } = createReduxHistoryContext({
-  history: createBrowserHistory(),
-});
+import commonReducer from "./common.reducer";
 
 const rootReducer = combineReducers({
-  router: routerReducer,
+  common: commonReducer,
   auth: authReducer,
   profile: profileReducer,
   user: userReducer,

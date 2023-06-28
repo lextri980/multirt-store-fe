@@ -44,4 +44,13 @@ export const ProfileContainer = styled.div`
       font-size: 30px;
     }
   }
+
+  .horizontal-center {
+    flex-wrap: wrap;
+    gap: 10px
+  }
+
+  .full-width {
+    width: 100%;
+  }
 `;
