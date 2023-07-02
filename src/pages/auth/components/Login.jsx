@@ -224,12 +224,14 @@ function Login() {
             <footer className="modal-footer">
               <Button
                 color="warning"
+                width="170px"
                 onClick={() => setSendMailResetPasswordModal(false)}
               >
                 Cancel
               </Button>
               <Button
                 color="success"
+                width="170px"
                 type="submit"
                 disabled={loading === true ? true : false}
                 onClick={() => triggerSendMail()}
@@ -284,12 +286,14 @@ function Login() {
             <footer className="modal-footer">
               <Button
                 color="warning"
+                width="170px"
                 onClick={() => setResetPasswordModal(false)}
               >
                 Cancel
               </Button>
               <Button
                 color="success"
+                width="170px"
                 type="submit"
                 disabled={loading === true ? true : false}
                 onClick={() => triggerResetPassword()}

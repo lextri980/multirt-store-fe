@@ -26,7 +26,7 @@ function Button(props) {
         bordered={border || false}
         type={type || "button"}
         style={{
-          width: width || "170px",
+          width: width || "100%",
           color: textColor,
           minWidth: "50px",
         }}

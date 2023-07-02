@@ -42,7 +42,7 @@ const routes = () => {
           ),
         },
         {
-          path: "/manage-user",
+          path: "/user",
           element: (
             <AuthenticatedRoute>
               <AuthorizedRoute role={["Admin"]}>

@@ -122,7 +122,7 @@ function NavbarMenu() {
               </div>
             </Dropdown.Item>
             {role(["Admin"]) ? (
-              <Dropdown.Item key="manage-user">
+              <Dropdown.Item key="user">
                 <div className="vertical-center">
                   <PeopleIcon />
                   <span className="ml-5">User management</span>
@@ -170,10 +170,10 @@ function NavbarMenu() {
               }
             >
               {user?.role?.role_id === 1
-                  ? "Admin"
-                  : user?.role?.role_id === 2
-                  ? "Vendor"
-                  : "Buyer"}
+                ? "Admin"
+                : user?.role?.role_id === 2
+                ? "Vendor"
+                : "Buyer"}
             </Badge>
           ) : (
             ""
@@ -233,7 +233,7 @@ function NavbarMenu() {
       </Navbar>
       {/* //! Secondary menu navbar ----------------------------------- */}
       {location.pathname !== "/profile" &&
-      location.pathname !== "/manage-user" ? (
+      location.pathname !== "/user" ? (
         <div className="secondary-menu">
           <Dropdown>
             <Dropdown.Button>Menu</Dropdown.Button>
@@ -244,21 +244,21 @@ function NavbarMenu() {
             </Dropdown.Menu>
           </Dropdown>
           <Spacer x={2} />
-          <Button name="ABC" className="ml-20" color="success">
+          <Button width="170px" name="ABC" className="ml-20" color="success">
             ABC
           </Button>
 
           <Spacer x={2} />
-          <Button name="ABC" className="ml-20" color="success">
+          <Button width="170px" name="ABC" className="ml-20" color="success">
             ABC
           </Button>
           <Spacer x={2} />
-          <Button name="ABC" className="ml-20" color="success">
+          <Button width="170px" name="ABC" className="ml-20" color="success">
             ABC
           </Button>
 
           <Spacer x={2} />
-          <Button name="ABC" className="ml-20" color="success">
+          <Button width="170px" name="ABC" className="ml-20" color="success">
             ABC
           </Button>
         </div>
@@ -276,10 +276,19 @@ function NavbarMenu() {
       >
         <img className="gif" src={Image.logout} alt="logout-img" />
         <div className="modal-footer">
-          <Button color="warning" onClick={() => setLogoutModal(false)}>
+          <Button
+            width="170px"
+            color="warning"
+            onClick={() => setLogoutModal(false)}
+          >
             Cancel
           </Button>
-          <Button color="danger" type="submit" onClick={() => onSubmitLogout()}>
+          <Button
+            width="170px"
+            color="danger"
+            type="submit"
+            onClick={() => onSubmitLogout()}
+          >
             Logout
           </Button>
         </div>
