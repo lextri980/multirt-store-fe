@@ -1,9 +1,9 @@
 import axios from "axios";
-import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
+import { STORAGE_TOKEN } from "constants/service.const";
 import { logoutRequest } from "store/actions/auth.action";
 import { store } from "store/store";
-import { setLocal } from "utils/storage.util";
-import { removeManyLocal } from "utils/storage.util";
+import { getCookie, setLocal } from "utils/storage.util";
+import { removeManyStorage } from "utils/storage.util";
 
 const apiAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -14,8 +14,16 @@ const apiAxios = axios.create({
 apiAxios.interceptors.request.use(
   (config) => {
     let token;
-    if (localStorage[LOCALSTORAGE_TOKEN_NAME]) {
-      token = localStorage[LOCALSTORAGE_TOKEN_NAME];
+    const authenCookie = getCookie(STORAGE_TOKEN);
+    if (localStorage[STORAGE_TOKEN]) {
+      token = localStorage[STORAGE_TOKEN];
+      config.headers = {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
+    } else if (authenCookie && authenCookie !== "") {
+      token = authenCookie;
       config.headers = {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -46,7 +54,7 @@ apiAxios.interceptors.response.use(
     // }
     switch (error.response.status) {
       case 401:
-        removeManyLocal(["authentication", "user"]);
+        removeManyStorage(["token", "user"]);
         store.dispatch(logoutRequest());
         window.location.pathname = "/authentication";
         setLocal("unauthorized", JSON.stringify(error.response));

@@ -5,8 +5,8 @@ import Dashboard from "pages/dashboard/Dashboard";
 import NotFound from "pages/notFound/NotFound";
 import Profile from "pages/profile/Profile";
 import User from "pages/user/User";
-import AdminRoute from "./guards/AdminRoute";
 import AuthenticatedRoute from "./guards/AuthenticatedRoute";
+import AuthorizedRoute from "./guards/AuthorizedRoute";
 import Landing from "./guards/Landing";
 
 const routes = () => {
@@ -45,9 +45,9 @@ const routes = () => {
           path: "/manage-user",
           element: (
             <AuthenticatedRoute>
-              <AdminRoute>
+              <AuthorizedRoute role={["Admin"]}>
                 <User />
-              </AdminRoute>
+              </AuthorizedRoute>
             </AuthenticatedRoute>
           ),
         },

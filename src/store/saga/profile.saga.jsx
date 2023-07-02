@@ -24,6 +24,7 @@ import {
   updatePasswordApi,
   updateProfileApi,
 } from "store/api/profile.api";
+import { setLocal } from "utils/storage.util";
 
 function* getProfileWorker() {
   try {
@@ -41,7 +42,7 @@ function* updateProfileWorker(action) {
   try {
     const response = yield call(updateProfileApi, payload);
     yield delay(500);
-    localStorage.setItem("user", JSON.stringify(response.data.data));
+    setLocal("user", JSON.stringify(response.data.data));
     yield put(updateProfileSuccess(response.data));
     yield toast.success(response.data.message);
   } catch (error) {

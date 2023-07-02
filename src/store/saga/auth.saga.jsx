@@ -1,4 +1,4 @@
-import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
+import { STORAGE_TOKEN } from "constants/service.const";
 import { toast } from "react-toastify";
 import { all, call, delay, put, takeLatest } from "redux-saga/effects";
 import {
@@ -23,6 +23,7 @@ import {
   resetPasswordApi,
   sendMailApi,
 } from "store/api/auth.api";
+import { removeManyStorage, setCookie, setLocal } from "utils/storage.util";
 
 function* loginWorker(action) {
   const { payload, callback } = action;
@@ -30,8 +31,13 @@ function* loginWorker(action) {
     const response = yield call(loginApi, payload);
     if (response.status === 200) {
       yield delay(500);
-      localStorage.setItem(LOCALSTORAGE_TOKEN_NAME, response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      if (payload.remember) {
+        setLocal(STORAGE_TOKEN, response.data.token);
+        setLocal("user", JSON.stringify(response.data.user));
+      } else {
+        setCookie(STORAGE_TOKEN, response.data.token);
+        setCookie("user", JSON.stringify(response.data.user));
+      }
       yield put(loginSuccess(response.data));
       yield toast.success(response.data.message);
       callback();
@@ -91,13 +97,11 @@ function* resetPasswordWorker(action) {
 
 function* logoutWorker(action) {
   const { callback } = action;
-  localStorage.removeItem(LOCALSTORAGE_TOKEN_NAME);
-  localStorage.removeItem("user");
+  removeManyStorage([STORAGE_TOKEN, "user"]);
   yield delay(500);
   yield put(logoutSuccess());
   if (callback) {
     callback();
-  } else {
     yield toast.success("Logout successfully");
   }
 }

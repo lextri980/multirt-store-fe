@@ -6,11 +6,13 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import { Avatar, Badge, Spacer, Switch, Table } from "@nextui-org/react";
 import { Button, Loading, Modal } from "components/common";
 import { AnimatedLayout } from "components/layouts";
+import { STORAGE_TOKEN } from "constants/service.const";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetailUserRequest } from "store/actions/user.action";
 import { color } from "themes/colors";
 import { formatDate } from "utils/function.util";
+import { getCookie, getLocal } from "utils/storage.util";
 import {
   TableTypeContainer,
   UpdateUserModalContainer,
@@ -23,7 +25,9 @@ function TableType() {
   const dispatch = useDispatch();
 
   //* Declare global variables -------------------------------------------------------------------------------
-  const userLocal = JSON.parse(localStorage.getItem("user"));
+  const userLocal = localStorage[STORAGE_TOKEN]
+    ? JSON.parse(getLocal("user"))
+    : JSON.parse(getCookie("user"));
   const userForm = { isAdmin: false };
   const columns = [
     {

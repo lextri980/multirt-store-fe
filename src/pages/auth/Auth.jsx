@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useOutletContext } from "react-router-dom";
 import { closeModal, openModal } from "store/actions/common.action";
-import { getLocal, removeLocal } from "utils/storage.util";
+import { getLocal, removeStorage } from "utils/storage.util";
 import { titlePage } from "utils/titlePage.util";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -37,7 +37,7 @@ function Auth() {
 
   const handleCloseModal = () => {
     dispatch(closeModal());
-    removeLocal("unauthorized");
+    removeStorage("unauthorized");
   };
 
   return (

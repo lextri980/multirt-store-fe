@@ -27,7 +27,7 @@ function AlertModal(props) {
         </Modal.Header>
         <Modal.Body>
           <ModalBody>
-            <img src={Image.unauthorized} alt="error" width="800" />
+            <img className="gif" src={Image.unauthorized} alt="error" width="800" />
             <Spacer y={0.5} />
             <p>{alertModal.message}</p>
             <Spacer y={1} />

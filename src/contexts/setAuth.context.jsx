@@ -1,14 +1,17 @@
-import { LOCALSTORAGE_TOKEN_NAME } from "constants/service.const";
+import { STORAGE_TOKEN } from "constants/service.const";
 import { createContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router";
 import { setAuth } from "store/actions/auth.action";
+import { getCookie, getLocal } from "utils/storage.util";
 
 export const SetAuthContext = createContext();
 
 function SetAuthContextProvider({ children }) {
   //* Declare global variables
-  const isAuth = localStorage.getItem(LOCALSTORAGE_TOKEN_NAME);
+  const isAuth = localStorage[STORAGE_TOKEN]
+    ? getLocal(STORAGE_TOKEN)
+    : getCookie(STORAGE_TOKEN);
 
   //* Redux hooks
   const dispatch = useDispatch();
@@ -23,8 +26,11 @@ function SetAuthContextProvider({ children }) {
 
   //! async (setAuthLogin): Check authentication
   const setAuthLogin = () => {
-    if (localStorage[LOCALSTORAGE_TOKEN_NAME]) {
-      const userData = JSON.parse(localStorage.getItem("user"));
+    if (localStorage[STORAGE_TOKEN]) {
+      const userData = JSON.parse(getLocal("user"));
+      dispatch(setAuth(userData));
+    } else {
+      const userData = getCookie("user");
       dispatch(setAuth(userData));
     }
   };

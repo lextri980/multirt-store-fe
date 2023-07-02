@@ -23,7 +23,11 @@ function Modal(props) {
         onClose={close}
       >
         <ModalCustom.Header>
-          <Text id="modal-title" size={25} style={{ marginTop: "10px" }}>
+          <Text
+            id="modal-title"
+            size={25}
+            style={{ marginTop: "10px", fontWeight: "500" }}
+          >
             {header}
           </Text>
         </ModalCustom.Header>

@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutRequest } from "store/actions/auth.action";
 import { getProfileRequest } from "store/actions/profile.action";
+import { Image } from "themes/image";
 import Button from "../button/Button";
 import Modal from "../modal/Modal";
 import { NavbarContainer } from "./Navbar.style";
@@ -54,6 +55,15 @@ function NavbarMenu() {
   //@ (handleChangeSwitch): change color for switch
   const handleChangeSwitch = () => {
     setSwitchChecked(!switchChecked);
+  };
+
+  //@ (role): check role visible
+  const role = (roleName) => {
+    if (roleName && roleName.includes(user?.role?.role_name)) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   //@ (changeRoute): Change route navigation
@@ -111,7 +121,7 @@ function NavbarMenu() {
                 <span className="ml-5">Profile</span>
               </div>
             </Dropdown.Item>
-            {user.isAdmin ? (
+            {role(["Admin"]) ? (
               <Dropdown.Item key="manage-user">
                 <div className="vertical-center">
                   <PeopleIcon />
@@ -151,9 +161,19 @@ function NavbarMenu() {
           {user ? (
             <Badge
               size="md"
-              color={user.isAdmin === true ? "warning" : "success"}
+              color={
+                user?.role?.role_id === 1
+                  ? "warning"
+                  : user?.role?.role_id === 2
+                  ? "primary"
+                  : "success"
+              }
             >
-              {user.isAdmin === true ? "Admin account" : "User account"}
+              {user?.role?.role_id === 1
+                  ? "Admin"
+                  : user?.role?.role_id === 2
+                  ? "Vendor"
+                  : "Buyer"}
             </Badge>
           ) : (
             ""
@@ -254,6 +274,7 @@ function NavbarMenu() {
           setLogoutModal(false);
         }}
       >
+        <img className="gif" src={Image.logout} alt="logout-img" />
         <div className="modal-footer">
           <Button color="warning" onClick={() => setLogoutModal(false)}>
             Cancel
