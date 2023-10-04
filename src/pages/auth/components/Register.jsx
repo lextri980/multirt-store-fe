@@ -123,7 +123,11 @@ function Register() {
             <Card.Divider />
             <Card.Footer>
               <Row justify="flex-end">
-                <Button color="warning" width="100px" onClick={handleClearform}>
+                <Button
+                  color="warning"
+                  width="100px"
+                  onClick={handleClearform}
+                >
                   Clear
                 </Button>
                 <Spacer x={1} />

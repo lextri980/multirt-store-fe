@@ -161,7 +161,14 @@ function Profile() {
         </Card>
 
         {/* //*---------------------------------------- Card 2 ----------------------------------------*/}
-        <Card css={{ mw: "420px", padding: "25px 40px", margin: "0 90px" }}>
+        <Card
+          css={{
+            maxWidth: "420px",
+            minWidth: "420px",
+            padding: "25px 40px",
+            margin: "0 90px",
+          }}
+        >
           <Card.Header className="center">
             <Avatar
               className="avatar"
@@ -188,9 +195,7 @@ function Profile() {
                 </p>
                 <p className="mb-10">
                   <span className="title">Account</span>
-                  <span className="content">
-                    {profile?.isAdmin === true ? "Admin" : "User"}
-                  </span>
+                  <span className="content">{profile?.role?.role_name}</span>
                 </p>
               </>
             )}
@@ -198,11 +203,10 @@ function Profile() {
           <Card.Footer className="center full-width">
             <Button
               color="warning"
-              width="100%"
               onClick={() => {
                 setOpenUpdateProfileModal(true);
                 handleClearForm();
-              }}  
+              }}
             >
               Update profile
             </Button>
@@ -210,7 +214,7 @@ function Profile() {
             <div className="horizontal-center">
               <Button
                 color="success"
-                width="150px"
+                width="100%"
                 onClick={() => {
                   setOpenUpdateAvatarModal(true);
                   handleClearForm();
@@ -220,7 +224,7 @@ function Profile() {
               </Button>
               <Button
                 color="danger"
-                width="150px"
+                width="100%"
                 onClick={() => {
                   setOpenUpdatePasswordModal(true);
                   handleClearForm();
@@ -274,6 +278,7 @@ function Profile() {
             <footer className="modal-footer">
               <Button
                 color="warning"
+                width="170px"
                 onClick={() => setOpenUpdateProfileModal(false)}
               >
                 Cancel
@@ -281,6 +286,7 @@ function Profile() {
               <Button
                 color="success"
                 type="submit"
+                width="170px"
                 disabled={loading === true ? true : false}
                 onClick={() => triggerProfile()}
               >
@@ -362,7 +368,7 @@ function Profile() {
               value="oldPassword"
               register={regPassword}
               password
-              type={pw1}
+              isText={pw1}
               onPassword={() => setPw1(!pw1)}
               error={errorsPassword.oldPassword ? true : false}
             />
@@ -377,7 +383,7 @@ function Profile() {
               value="password"
               register={regPassword}
               password
-              type={pw2}
+              isText={pw2}
               onPassword={() => setPw2(!pw2)}
               error={errorsPassword.password ? true : false}
             />
@@ -392,7 +398,7 @@ function Profile() {
               value="confirmPassword"
               register={regPassword}
               password
-              type={pw3}
+              isText={pw3}
               onPassword={() => setPw3(!pw3)}
               error={errorsPassword.confirmPassword ? true : false}
             />
@@ -404,12 +410,14 @@ function Profile() {
             <footer className="modal-footer">
               <Button
                 color="warning"
+                width="170px"
                 onClick={() => setOpenUpdatePasswordModal(false)}
               >
                 Cancel
               </Button>
               <Button
                 color="success"
+                width="170px"
                 type="submit"
                 disabled={loading === true ? true : false}
                 onClick={() => triggerPassword()}

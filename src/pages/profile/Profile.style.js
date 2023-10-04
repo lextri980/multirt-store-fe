@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ProfileContainer = styled.div`
-  height: 80vh;
+  height: calc(100vh - 86px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@ export const ProfileContainer = styled.div`
       font-size: 100px;
     }
 
-    @media (max-width: 1300px) {
+    @media (max-width: 1550px) {
       width: 120px;
       height: 120px;
 
@@ -46,8 +46,9 @@ export const ProfileContainer = styled.div`
   }
 
   .horizontal-center {
-    flex-wrap: wrap;
-    gap: 10px
+    width: 100%;
+    justify-content: space-between;
+    gap: 0 10px;
   }
 
   .full-width {

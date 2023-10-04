@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { color } from "themes/colors";
 
 export const ButtonContainer = styled.div`
+  width: ${(props) => (props.width ? props.width : "100%")};
   .primary {
     background-color: ${color.blue};
   }

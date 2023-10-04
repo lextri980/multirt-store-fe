@@ -1,3 +1,4 @@
+import { STORAGE_USER } from "constants/service.const";
 import { toast } from "react-toastify";
 import { all, call, delay, put, takeLatest } from "redux-saga/effects";
 import {
@@ -24,7 +25,7 @@ import {
   updatePasswordApi,
   updateProfileApi,
 } from "store/api/profile.api";
-import { setLocal } from "utils/storage.util";
+import { setCookie, setLocal } from "utils/storage.util";
 
 function* getProfileWorker() {
   try {
@@ -42,7 +43,11 @@ function* updateProfileWorker(action) {
   try {
     const response = yield call(updateProfileApi, payload);
     yield delay(500);
-    setLocal("user", JSON.stringify(response.data.data));
+    if (localStorage[STORAGE_USER]) {
+      setLocal("user", JSON.stringify(response.data.data));
+    } else {
+      setCookie("user", JSON.stringify(response.data.data));
+    }
     yield put(updateProfileSuccess(response.data));
     yield toast.success(response.data.message);
   } catch (error) {

@@ -29,8 +29,8 @@ function SetAuthContextProvider({ children }) {
     if (localStorage[STORAGE_TOKEN]) {
       const userData = JSON.parse(getLocal("user"));
       dispatch(setAuth(userData));
-    } else {
-      const userData = getCookie("user");
+    } else if (getCookie("user")) {
+      const userData = JSON.parse(getCookie("user"));
       dispatch(setAuth(userData));
     }
   };

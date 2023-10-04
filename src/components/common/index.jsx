@@ -1,7 +1,7 @@
 import Button from "./button/Button";
-import ButtonLight from "./button/ButtonLight";
 import ErrorMessage from "./errorMessage/ErrorMessage";
 import File from "./file/File";
+import FormInput from "./input/Input";
 import Input from "./input/textInput/Input";
 import Loading from "./loading/Loading";
 import Modal from "./modal/Modal";
@@ -13,9 +13,9 @@ import Table from "./table/Table";
 
 export {
   Button,
-  ButtonLight,
   ErrorMessage,
   File,
+  FormInput,
   Input,
   Loading,
   Modal,

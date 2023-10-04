@@ -1,4 +1,4 @@
-import ButtonCustom from "@nextui-org/react/button";
+import { Button as ButtonCustom } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import { ButtonContainer } from "./Button.style";
 
@@ -18,7 +18,7 @@ function Button(props) {
     props;
 
   return (
-    <ButtonContainer>
+    <ButtonContainer width={width && width}>
       <ButtonCustom
         className={color || "primary"}
         onClick={onClick}
@@ -26,7 +26,7 @@ function Button(props) {
         bordered={border || false}
         type={type || "button"}
         style={{
-          width: width || "100%",
+          width: "100%",
           color: textColor,
           minWidth: "50px",
         }}

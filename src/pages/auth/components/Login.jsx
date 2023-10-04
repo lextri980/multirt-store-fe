@@ -163,9 +163,9 @@ function Login() {
                 <Controller
                   control={controlLogin}
                   name="remember"
-                  defaultValue={true}
+                  defaultValue={false}
                   render={({ field }) => (
-                    <Checkbox {...field} defaultSelected>
+                    <Checkbox {...field}>
                       <Text size={14}>Remember me</Text>
                     </Checkbox>
                   )}
@@ -182,7 +182,11 @@ function Login() {
             <Card.Divider />
             <Card.Footer>
               <Row justify="flex-end">
-                <Button color="warning" width="100px" onClick={handleClearform}>
+                <Button
+                  color="warning"
+                  width="100px"
+                  onClick={handleClearform}
+                >
                   Clear
                 </Button>
                 <Spacer x={1} />

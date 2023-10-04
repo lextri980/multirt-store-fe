@@ -169,11 +169,7 @@ function NavbarMenu() {
                   : "success"
               }
             >
-              {user?.role?.role_id === 1
-                ? "Admin"
-                : user?.role?.role_id === 2
-                ? "Vendor"
-                : "Buyer"}
+              {user?.role?.role_name}
             </Badge>
           ) : (
             ""
@@ -232,8 +228,7 @@ function NavbarMenu() {
         </Navbar.Content>
       </Navbar>
       {/* //! Secondary menu navbar ----------------------------------- */}
-      {location.pathname !== "/profile" &&
-      location.pathname !== "/user" ? (
+      {location.pathname !== "/profile" && location.pathname !== "/user" ? (
         <div className="secondary-menu">
           <Dropdown>
             <Dropdown.Button>Menu</Dropdown.Button>
@@ -244,21 +239,41 @@ function NavbarMenu() {
             </Dropdown.Menu>
           </Dropdown>
           <Spacer x={2} />
-          <Button width="170px" name="ABC" className="ml-20" color="success">
+          <Button
+            width="170px"
+            name="ABC"
+            className="ml-20"
+            color="success"
+          >
             ABC
           </Button>
 
           <Spacer x={2} />
-          <Button width="170px" name="ABC" className="ml-20" color="success">
+          <Button
+            width="170px"
+            name="ABC"
+            className="ml-20"
+            color="success"
+          >
             ABC
           </Button>
           <Spacer x={2} />
-          <Button width="170px" name="ABC" className="ml-20" color="success">
+          <Button
+            width="170px"
+            name="ABC"
+            className="ml-20"
+            color="success"
+          >
             ABC
           </Button>
 
           <Spacer x={2} />
-          <Button width="170px" name="ABC" className="ml-20" color="success">
+          <Button
+            width="170px"
+            name="ABC"
+            className="ml-20"
+            color="success"
+          >
             ABC
           </Button>
         </div>
